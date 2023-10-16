@@ -1,0 +1,33 @@
+<form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="input-block">
+    <p>Имя пользователя</p>
+    <input type="text" formControlName="name" [ngClass]="{'invalid-input': name?.invalid && (name?.dirty || name?.touched)}">
+    <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="alert">
+      <div *ngIf="name?.errors?.['required']">Имя обязательное поле</div>
+      <div *ngIf="name?.errors?.['uniq']">Такое имя уже существует</div>
+    </div>
+  </div>
+  <div class="input-block">
+    <p>Пароль</p>
+    <input type="password" formControlName="password" [ngClass]="{'invalid-input': password?.invalid && (password?.dirty || password?.touched)}">
+    <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="alert">
+      <div *ngIf="password?.errors?.['required']">Пароль обязательное поле</div>
+      <div *ngIf="password?.errors?.['minlength']">Пароль должен быть длинее 4 символов</div>
+      <div *ngIf="password?.errors?.['pattern']">Пароль должен содержать хотя бы 1 букву латиницы</div>
+      <div *ngIf="password?.errors?.['identical']">Пароли должны совпадать</div>
+    </div>
+  </div>
+  <div class="input-block">
+    <p>Повторите пароль</p>
+    <input type="password" formControlName="confirmPassword" [ngClass]="{'invalid-input': confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)}">
+    <div *ngIf="confirmPassword?.invalid && (confirmPassword?.dirty || confirmPassword?.touched)" class="alert">
+      <div *ngIf="confirmPassword?.errors?.['required']">Пароль обязательное поле</div>
+      <div *ngIf="confirmPassword?.errors?.['minlength']">Пароль должен быть длинее 4 символов</div>
+      <div *ngIf="confirmPassword?.errors?.['pattern']">Пароль должен содержать хотя бы 1 букву латиницы</div>
+      <div *ngIf="confirmPassword?.errors?.['identical']">Пароли должны совпадать</div>
+    </div>
+  </div>
+  <div class="input-block">
+    <button [disabled]="!registerForm.valid">Зарегистироваться</button>
+  </div>
+</form>
