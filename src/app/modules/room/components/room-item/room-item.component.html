@@ -1,0 +1,22 @@
+<div *ngIf="!(isUserJoined | async); else elseBlock">
+  <button (click)="connectToRoom()">Подключиться к комнате</button>
+</div>
+<ng-template #elseBlock>
+  <div class="view">
+    <div class="message-container" >
+      <ng-container *ngFor="let message of allMessages">
+        <div class="message">
+          <div class="message-ext">
+            <p>{{message.user}}</p>
+            <button *ngIf="canKickUser(message.user)" (click)="kickUser(message.user)">Кикнуть</button>
+          </div>
+          <p>{{message.audio}}</p>
+        </div>
+      </ng-container>
+    </div>
+    <div class="input-container">
+      <input type="text" [(ngModel)]="inputValue">
+      <button (click)="sendMessage()">Отправить</button>
+    </div>
+  </div>
+</ng-template>

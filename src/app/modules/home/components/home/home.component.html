@@ -1,0 +1,9 @@
+<div class="container">
+  <p>Найти пользователя</p>
+  <input placeholder="Введите имя пользователя" [(ngModel)]="userName" (ngModelChange)="userSearch$.next($event)">
+
+  <ul class="list" *ngFor="let foundUser of foundUsers$ | async">
+    <li [appAddUsers]="selectedUsersIds" [userId]="foundUser._id" (patchSelectedUsers)="updateUsersIds($event)">{{foundUser.username}}</li>
+  </ul>
+  <button (click)="callUsers()">Начать звонок</button>
+</div>
