@@ -1,10 +1,12 @@
+
+
 export interface User {
   username: string;
   _id: string;
 }
 
-export interface Room {
+export interface Room<T> {
   host: string;
-  users: string[];
+  users: T;
   _id: string;
 }

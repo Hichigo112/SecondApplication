@@ -11,7 +11,7 @@ export class AddUsersDirective {
   constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
 
   @HostListener('click')
-  onSelectUserId() {
+  onSelectUserId(): void {
     if (this.selectedUsersIds.has(this.userId)) {
       this.renderer.removeClass(this.elementRef.nativeElement, 'active')
     } else {

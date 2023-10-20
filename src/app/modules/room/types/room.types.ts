@@ -1,9 +1,6 @@
 export type JoinType = {
   data: string,
-  user: {
-    id: string;
-    username: string;
-  },
+  user: UserInfo,
 }
 
 export type IsUserJoined = {
@@ -31,4 +28,9 @@ export type KickUser = {
 export type LeaveUser = {
   data: string;
   user: string;
+}
+
+export type UserInfo = {
+  id: string;
+  username: string;
 }

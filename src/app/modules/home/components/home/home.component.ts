@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     ).subscribe(res => this.foundUsers$.next(res)))
   }
 
-  updateUsersIds(id: string) {
+  updateUsersIds(id: string): void {
     if (this.selectedUsersIds.has(id)) {
       this.selectedUsersIds.delete(id)
     } else {
@@ -51,9 +51,11 @@ export class HomeComponent implements OnInit, OnDestroy{
     }
   }
 
-  callUsers() {
+  callUsers(): void  {
     const arraySelectedIds = Array.from(this.selectedUsersIds)
-    this.roomService.createRoom(arraySelectedIds).subscribe(res => this.router.navigate([`/room/${res._id}`]))
+    this.roomService.createRoom(arraySelectedIds).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(res => this.router.navigate([`/room/${res._id}`]))
   }
   ngOnDestroy(): void {
     this.destroy$.next(true)

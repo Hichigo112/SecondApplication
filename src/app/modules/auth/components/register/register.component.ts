@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
     }, {updateOn: 'blur'})
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.password?.value === this.confirmPassword?.value) {
       this.authService.createUser(this.name?.value, this.password?.value).pipe(
         catchError(err => {

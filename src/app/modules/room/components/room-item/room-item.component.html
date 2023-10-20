@@ -1,5 +1,5 @@
-<div *ngIf="!(isUserJoined | async); else elseBlock">
-  <button (click)="connectToRoom()">Подключиться к комнате</button>
+<div *ngIf="!isUserJoined; else elseBlock">
+  <button (click)="askToJoin()">Запросить доступ к комнате</button>
 </div>
 <ng-template #elseBlock>
   <div class="view">
@@ -8,7 +8,6 @@
         <div class="message">
           <div class="message-ext">
             <p>{{message.user}}</p>
-            <button *ngIf="canKickUser(message.user)" (click)="kickUser(message.user)">Кикнуть</button>
           </div>
           <p>{{message.audio}}</p>
         </div>
@@ -17,6 +16,19 @@
     <div class="input-container">
       <input type="text" [(ngModel)]="inputValue">
       <button (click)="sendMessage()">Отправить</button>
+    </div>
+  </div>
+  <div class="settings">
+    <div class="users-container">
+      <ng-container *ngFor="let user of roomData$.getValue().users">
+        <div class="user" *ngIf="user.id">
+          <p>{{user.username}}</p>
+          <button *ngIf="canKickUser(user.id)" (click)="kickUser(user.id)">кикнуть</button>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="userId === roomData$.getValue().host">
+      <button class="delete" (click)="deleteRoom()">Удалить комнату</button>
     </div>
   </div>
 </ng-template>

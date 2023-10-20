@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {Socket} from "ngx-socket-io";
-import {data, user} from '../app/constants/askToJoin'
-import {ActivatedRoute} from "@angular/router";
 import {
   GetMessage,
   IsUserJoined,
   JoinType,
   KickUser,
   LeaveUser,
-  SendMessage
+  SendMessage, UserInfo
 } from "src/app/modules/room/types/room.types";
 import {Observable} from "rxjs";
 
@@ -19,11 +17,11 @@ export class SocketService {
 
   constructor(private socket: Socket) { }
 
-  askToJoin() {
-    this.socket.emit('ask-to-join', {data: data, user: user});
+  askToJoin(data: {}): void {
+    this.socket.emit('ask-to-join', data);
   }
 
-  joinInRoom(joinData: JoinType) {
+  joinInRoom(joinData: JoinType): void {
     this.socket.emit('join', joinData)
   }
 
@@ -31,7 +29,7 @@ export class SocketService {
     return this.socket.fromEvent(roomId)
   }
 
-  sendMessage(message: SendMessage) {
+  sendMessage(message: SendMessage): void {
     this.socket.emit('audio-stream', message)
   }
 
@@ -39,7 +37,7 @@ export class SocketService {
     return this.socket.fromEvent('audio-stream')
   }
 
-  kickUserForAdmin(kickData: KickUser) {
+  kickUserForAdmin(kickData: KickUser): void {
     this.socket.emit('kick', kickData)
   }
 
@@ -47,11 +45,31 @@ export class SocketService {
     return this.socket.fromEvent('kicked')
   }
 
-  leaveFromRoom(user: LeaveUser) {
+  leaveFromRoom(user: LeaveUser): void {
     this.socket.emit('leave', user)
   }
 
-  listenLeaveUser() {
-    return this.socket.fromEvent('leaved')
+  listenAskToJoin(id: string): Observable<UserInfo> {
+    return this.socket.fromEvent(id)
+  }
+
+  acceptUserToJoinRoom(user: UserInfo): void {
+    this.socket.emit('accept', {user})
+  }
+
+  declineUserToJoinRoom(user: UserInfo): void {
+    this.socket.emit('decline', {user})
+  }
+
+  listenApproveOrDeclined(id: string): Observable<boolean> {
+    return this.socket.fromEvent(id)
+  }
+
+  deleteRoom(data: string) : void{
+    this.socket.emit('delete', {data})
+  }
+
+  testListenRoom(roomId: string) {
+    return this.socket.fromEvent(roomId)
   }
 }

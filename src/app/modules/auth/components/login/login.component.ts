@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy{
     }, {updateOn: "blur"})
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.valid) {
       this.authService.loginUser(this.name?.value, this.password?.value).pipe(
         catchError(err => {
